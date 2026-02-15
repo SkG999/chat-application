@@ -99,3 +99,16 @@ export const logout = async (req, res) => {
     console.log(`Error is : ${error}`);
   }
 };
+
+export const getOtherUsers = async (req, res) => {
+  try {
+    const loggedInUsers = req.id;
+    // id se find karenge saare users ko ---- Note : $ne : like vo saare users find karo jinki id is not equal to loggedInUser
+    const otherUsers = await User.find({ _id: { $ne: loggedInUsers } }).select(
+      "-password",
+    );
+    return res.status(200).json(otherUsers);
+  } catch (error) {
+    console.log(`Error is ${error}`);
+  }
+};
